@@ -15,7 +15,9 @@ import sd2.project.events.Events;
 public class Main extends JavaPlugin
 {
 
-    public static final String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.RED + ChatColor.BOLD + "D" + ChatColor.WHITE + ChatColor.BOLD + "C" + ChatColor.RESET + ChatColor.DARK_GRAY + "] ";
+    public static final String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.RED + 
+                                        ChatColor.BOLD + "D" + ChatColor.WHITE + ChatColor.BOLD + "C" + 
+                                        ChatColor.RESET + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;
 
     @Override
     public void onEnable()
