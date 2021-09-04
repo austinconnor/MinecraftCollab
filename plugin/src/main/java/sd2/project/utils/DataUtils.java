@@ -24,15 +24,18 @@ public class DataUtils
         JsonObject json = new JsonObject();
         JsonObject locationData = new JsonObject();
 
+        // This locationData object will be used to store the player's location
         locationData.addProperty("worldName", player.getWorld().getName());
         locationData.addProperty("x", player.getLocation().getBlockX());
         locationData.addProperty("y", player.getLocation().getBlockY());
         locationData.addProperty("z", player.getLocation().getBlockZ());
         locationData.addProperty("worldTime", player.getWorld().getTime());
 
+        // Adding necessary data to our object.
         json.addProperty("player", player.getName());
         json.add("location", gson.toJsonTree(locationData));
-    
+        
+        // An example of an output: {"player":"Stoworm","location":{"worldName":"world","x":223,"y":72,"z":92,"worldTime":1092}}
 
         return json;
     }

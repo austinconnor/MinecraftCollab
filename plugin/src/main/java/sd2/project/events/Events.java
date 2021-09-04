@@ -29,6 +29,10 @@ public class Events implements Listener
         int fromX, fromY, fromZ;
         int toX, toY, toZ;
 
+        // Gather necessary information. In Minecraft, the coordinate of a player
+        // is a double, but if we use getBlockX, we chop it down into an int by taking the floor.
+        // Note: the from location is from the previous step you took. If I was in block 35 before I moved to block 36,
+        // fromX = 35 and toX = 36 
         fromX = fromLoc.getBlockX();
         fromY = fromLoc.getBlockY();
         fromZ = fromLoc.getBlockZ();
@@ -37,12 +41,14 @@ public class Events implements Listener
         toY = toLoc.getBlockY();
         toZ = toLoc.getBlockZ();
 
+        // If we get the block we just came from, and compare it to the new block
         if(fromX != toX || fromY != toY || fromZ != toZ)
         {
             JsonObject data = dataUtils.packageData(player);
 
             try
             {
+                // Declare and write to the output file.
                 outputFile = new FileWriter("output.json", true);
                 outputFile.append(data.toString());
                 player.sendMessage("Sent.");
