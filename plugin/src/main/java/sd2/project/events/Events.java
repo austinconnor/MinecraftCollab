@@ -40,7 +40,7 @@ public class Events implements Listener
         // If we get the block we just came from, and compare it to the new block
         if(fromX != toX || fromY != toY || fromZ != toZ)
         {
-            JsonObject data = dataUtils.packageData(player);
+            JsonObject data = dataUtils.packageData(player, e);
 
             dataUtils.writeToFile(data);
 

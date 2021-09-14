@@ -39,8 +39,6 @@ public class DataUtils
     // We take a player as a parameter since we would like to get their location.
     public JsonObject packageData(Player player, Event e)
     {
-
-
         JsonObject json = new JsonObject();
         JsonObject locationData = new JsonObject();
 
