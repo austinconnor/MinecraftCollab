@@ -35,6 +35,8 @@ public class DataUtils
         return player.getName().hashCode() * player.getUniqueId().hashCode();
     }
 
+    // Use HeapCraft tab action data and add it as a parameter for the data
+
     // This method provides us a useable JSON object that we can tweak to our needs.
     // We take a player as a parameter since we would like to get their location.
     public JsonObject packageData(Player player, Event e)
@@ -54,7 +56,7 @@ public class DataUtils
         json.add("location", gson.toJsonTree(locationData));
         json.addProperty("event", e.getEventName());
         
-        // An example of an output: {"player":"Stoworm","location":{"worldName":"world","x":223,"y":72,"z":92,"worldTime":1092}}
+        // An example of an output: {"player":"Stoworm","location":{"worldName":"world","x":223,"y":72,"z":92,"worldTime":1092, "event": PlayerMoveEvent}}
         return json;
     }
 
