@@ -2,14 +2,14 @@ package sd2.project.events;
 
 import com.google.gson.JsonObject;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import sd2.project.Main;
 import sd2.project.utils.DataUtils;
 
 public class Events implements Listener
@@ -43,8 +43,28 @@ public class Events implements Listener
             JsonObject data = dataUtils.packageData(player, e);
 
             dataUtils.writeToFile(data);
-
-            Bukkit.broadcastMessage(Main.prefix + "JSON: " + data.toString());
         }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+        data.addProperty("block", e.getBlock().getType().name());
+        
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+        data.addProperty("block", e.getBlock().getType().name());
+        
+        dataUtils.writeToFile(data);
     }
 }

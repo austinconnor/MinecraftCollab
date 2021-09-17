@@ -30,6 +30,7 @@ public class DataUtils
     public String outputFileName = "output.json";
 	private String mongoURI = "placeholder";
 
+    // Eventually, this will hash the player's name.
     public int hashCode(Player player)
     {
         return player.getName().hashCode() * player.getUniqueId().hashCode();
@@ -45,18 +46,18 @@ public class DataUtils
         JsonObject locationData = new JsonObject();
 
         // This locationData object will be used to store the player's location
-        locationData.addProperty("worldName", player.getWorld().getName());
         locationData.addProperty("x", player.getLocation().getBlockX());
         locationData.addProperty("y", player.getLocation().getBlockY());
         locationData.addProperty("z", player.getLocation().getBlockZ());
-        locationData.addProperty("worldTime", player.getWorld().getTime());
+        locationData.addProperty("worldName", player.getWorld().getName());
+        locationData.addProperty("worldTime", player.getWorld().getFullTime());
 
         // Adding necessary data to our object.
-        json.addProperty("player", player.getName());
         json.add("location", gson.toJsonTree(locationData));
+        json.addProperty("player", player.getName());
         json.addProperty("event", e.getEventName());
         
-        // An example of an output: {"player":"Stoworm","location":{"worldName":"world","x":223,"y":72,"z":92,"worldTime":1092, "event": PlayerMoveEvent}}
+        // An example of an output: {"location":{"x":233,"y":72,"z":92,"worldName": "world", "worldTime":4764}, "playerID": "Stoworm", "event": "PlayerMoveEvent"}
         return json;
     }
 
