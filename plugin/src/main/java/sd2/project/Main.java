@@ -2,6 +2,7 @@ package sd2.project;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
 import sd2.project.cmds.ClearData;
@@ -18,6 +19,9 @@ public class Main extends JavaPlugin
 
     public DataUtils dataUtils = new DataUtils();
 
+    // The period of time to send data in minutes.
+    static final int period = 1;
+
     @Override
     public void onEnable()
     {
@@ -25,17 +29,29 @@ public class Main extends JavaPlugin
         Bukkit.getServer().getPluginManager().registerEvents(new Events(), this);
 
         this.getCommand("sendData").setExecutor(new SendData());
-        this.getCommand("clearData").setExecutor(new ClearData());        
+        this.getCommand("clearData").setExecutor(new ClearData());   
+        
+        // Send data loop
+        new BukkitRunnable()
+        {
+            public void run()
+            {
+               
+                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB() + " documents this time around.");
+                dataUtils.clearFile(dataUtils.outputFileName);
+
+            }   
+
+        // In Minecraft time (ticks), one human second is 20 ticks, so one human minute is 20*60 = 1200 ticks.
+        // Multiply 1200 by the desired amount of minutes to repeat this task
+        }.runTaskTimer(this, 20*60*period, 20*60*period);
+        
     }
 
     @Override
     public void onDisable()
     {
-        // Send data & clear on disable
-        int numRecords = dataUtils.writeToDB();
-        dataUtils.clearFile(dataUtils.outputFileName);
-
-        getLogger().info(prefix + ChatColor.RED + "DataCollection" + ChatColor.GRAY + " been disabled and uploaded " + numRecords + "documents before shutting down.");
+        getLogger().info(prefix + ChatColor.RED + "DataCollection" + ChatColor.GRAY + " been disabled.");
     }
 
     // To-Do list

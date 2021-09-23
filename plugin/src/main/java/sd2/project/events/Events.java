@@ -2,13 +2,20 @@ package sd2.project.events;
 
 import com.google.gson.JsonObject;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import sd2.project.utils.DataUtils;
 
@@ -65,6 +72,68 @@ public class Events implements Listener
         JsonObject data = dataUtils.packageData(p, e);
         data.addProperty("block", e.getBlock().getType().name());
         
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent e)
+    {
+        Player p = e.getEntity();
+
+        JsonObject data = dataUtils.packageData(p, e);
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onEntityDamage(EntityDamageByEntityEvent e)
+    {
+        // Melee damage
+        if (e.getDamager() instanceof Player)
+        {
+            Player p = (Player) e.getDamager();
+            
+            JsonObject data = dataUtils.packageData(p, e);
+            data.addProperty("damaged", e.getEntityType().toString());
+            data.addProperty("cause", e.getCause().toString());
+            data.addProperty("weapon", p.getInventory().getItemInMainHand().getType().toString());
+
+            dataUtils.writeToFile(data);
+        }
+    }
+
+    @EventHandler
+    public void onProjHit(ProjectileHitEvent e)
+    {
+        if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player)
+        {
+            Player p = (Player)e.getEntity().getShooter();
+
+            JsonObject data = dataUtils.packageData(p, e);
+            data.addProperty("target", e.getEntityType().toString());
+            data.addProperty("weapon", "BOW");
+
+            dataUtils.writeToFile(data);
+        }
+
+        if (e.getEntity() instanceof Trident && e.getEntity().getShooter() instanceof Player)
+        {
+            Player p = (Player)e.getEntity().getShooter();
+
+            JsonObject data = dataUtils.packageData(p, e);
+            data.addProperty("target", e.getEntityType().toString());
+            data.addProperty("weapon", "TRIDENT");
+
+            dataUtils.writeToFile(data);
+        }
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+
         dataUtils.writeToFile(data);
     }
 }
