@@ -12,16 +12,22 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityPortalEnterEvent;
+import org.bukkit.event.entity.EntityPortalExitEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import sd2.project.Main;
 import sd2.project.utils.DataUtils;
 
 public class Events implements Listener
 {
     DataUtils dataUtils = new DataUtils();
+    boolean passedPortal = false;
     
     @EventHandler
     public void onMoveEvent(PlayerMoveEvent e)
@@ -76,15 +82,6 @@ public class Events implements Listener
     }
 
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent e)
-    {
-        Player p = e.getEntity();
-
-        JsonObject data = dataUtils.packageData(p, e);
-        dataUtils.writeToFile(data);
-    }
-
-    @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent e)
     {
         // Melee damage
@@ -104,27 +101,36 @@ public class Events implements Listener
     @EventHandler
     public void onProjHit(ProjectileHitEvent e)
     {
-        if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player)
+        if (e.getEntity() instanceof Arrow && e.getEntity().getShooter() instanceof Player && e.getHitEntity() != null)
         {
             Player p = (Player)e.getEntity().getShooter();
 
             JsonObject data = dataUtils.packageData(p, e);
-            data.addProperty("target", e.getEntityType().toString());
-            data.addProperty("weapon", "BOW");
+            data.addProperty("target", e.getHitEntity().getType().toString());
+            data.addProperty("weapon", e.getEntity().getType().toString());
 
             dataUtils.writeToFile(data);
         }
 
-        if (e.getEntity() instanceof Trident && e.getEntity().getShooter() instanceof Player)
+        if (e.getEntity() instanceof Trident && e.getEntity().getShooter() instanceof Player && e.getHitEntity() != null)
         {
             Player p = (Player)e.getEntity().getShooter();
 
             JsonObject data = dataUtils.packageData(p, e);
-            data.addProperty("target", e.getEntityType().toString());
-            data.addProperty("weapon", "TRIDENT");
+            data.addProperty("target", e.getHitEntity().getType().toString());
+            data.addProperty("weapon", e.getEntity().getType().toString());
 
             dataUtils.writeToFile(data);
         }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent e)
+    {
+        Player p = e.getEntity();
+
+        JsonObject data = dataUtils.packageData(p, e);
+        dataUtils.writeToFile(data);
     }
 
     @EventHandler
@@ -133,6 +139,17 @@ public class Events implements Listener
         Player p = e.getPlayer();
 
         JsonObject data = dataUtils.packageData(p, e);
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onEnterPortal(PlayerChangedWorldEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+
+        data.addProperty("oldWorld", e.getFrom().getName());
 
         dataUtils.writeToFile(data);
     }
