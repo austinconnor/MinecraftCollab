@@ -2,6 +2,7 @@ package sd2.project.events;
 
 import com.google.gson.JsonObject;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -10,12 +11,22 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerBedEnterEvent;
+import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerEggThrowEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerShearEntityEvent;
+import org.bukkit.event.player.PlayerUnleashEntityEvent;
 
 import sd2.project.utils.DataUtils;
 
@@ -125,6 +136,7 @@ public class Events implements Listener
         Player p = e.getEntity();
 
         JsonObject data = dataUtils.packageData(p, e);
+
         dataUtils.writeToFile(data);
     }
 
@@ -134,6 +146,7 @@ public class Events implements Listener
         Player p = e.getPlayer();
 
         JsonObject data = dataUtils.packageData(p, e);
+
         dataUtils.writeToFile(data);
     }
 
@@ -145,6 +158,113 @@ public class Events implements Listener
         JsonObject data = dataUtils.packageData(p, e);
 
         data.addProperty("oldWorld", e.getFrom().getName());
+
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onEnchantment(EnchantItemEvent e)
+    {
+        Player p = e.getEnchanter();
+
+        JsonObject data = dataUtils.packageData(p, e);
+
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onPlayerDrop(PlayerDropItemEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+        data.addProperty("itemDrop", e.getItemDrop().getName());
+
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onBedEnter(PlayerBedEnterEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onBedLeave(PlayerBedLeaveEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onPlayerLeash(PlayerLeashEntityEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+        data.addProperty("entity", e.getEntity().getName());
+
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onPlayerUnleash(PlayerUnleashEntityEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+        data.addProperty("entity", e.getEntity().getName());
+
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onEggThrow(PlayerEggThrowEvent e)
+    {
+        if(e.isHatching())
+        {
+            Player p = e.getPlayer();
+            
+            JsonObject data = dataUtils.packageData(p, e);
+            data.addProperty("hatched", true);
+
+            dataUtils.writeToFile(data);
+        }
+    }
+
+    @EventHandler
+    public void onShear(PlayerShearEntityEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+
+        dataUtils.writeToFile(data);
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
 
         dataUtils.writeToFile(data);
     }
