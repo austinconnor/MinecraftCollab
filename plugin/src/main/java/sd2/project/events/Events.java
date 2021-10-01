@@ -2,7 +2,6 @@ package sd2.project.events;
 
 import com.google.gson.JsonObject;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;

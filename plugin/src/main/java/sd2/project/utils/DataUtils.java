@@ -18,6 +18,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 import org.bson.Document;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -29,12 +30,6 @@ public class DataUtils
     private FileWriter outputFile;
     public String outputFileName = "output.json";
 	private String mongoURI = "placeholder";
-
-    // Eventually, this will hash the player's name.
-    public int hashCode(Player player)
-    {
-        return player.getName().hashCode() * player.getUniqueId().hashCode();
-    }
 
     // Use HeapCraft tab action data and add it as a parameter for the data
 
@@ -54,10 +49,13 @@ public class DataUtils
 
         // Adding necessary data to our object.
         json.add("location", gson.toJsonTree(locationData));
-        json.addProperty("player", player.getName());
+        json.addProperty("player", player.getName().hashCode());
         json.addProperty("event", e.getEventName());
         
         // An example of an output: {"location":{"x":233,"y":72,"z":92,"worldName": "world", "worldTime":4764}, "playerID": "Stoworm", "event": "PlayerMoveEvent"}
+
+        Bukkit.broadcastMessage(json.toString());
+
         return json;
     }
 
