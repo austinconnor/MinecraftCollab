@@ -44,12 +44,12 @@ public class DataUtils
         locationData.addProperty("x", player.getLocation().getBlockX());
         locationData.addProperty("y", player.getLocation().getBlockY());
         locationData.addProperty("z", player.getLocation().getBlockZ());
-        locationData.addProperty("worldName", player.getWorld().getName());
-        locationData.addProperty("worldTime", player.getWorld().getFullTime());
 
         // Adding necessary data to our object.
         json.add("location", gson.toJsonTree(locationData));
         json.addProperty("player", player.getName().hashCode());
+        json.addProperty("worldName", player.getWorld().getName());
+        json.addProperty("worldTime", player.getWorld().getFullTime());
         json.addProperty("event", e.getEventName());
         
         // An example of an output: {"location":{"x":233,"y":72,"z":92,"worldName": "world", "worldTime":4764}, "playerID": "Stoworm", "event": "PlayerMoveEvent"}
