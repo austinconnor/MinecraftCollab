@@ -27,11 +27,14 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
+import sd2.project.utils.ChatDataUtils;
 import sd2.project.utils.DataUtils;
 
 public class Events implements Listener
 {
     DataUtils dataUtils = new DataUtils();
+    ChatDataUtils chatDataUtils = new ChatDataUtils();
     boolean passedPortal = false;
     
     @EventHandler
@@ -60,7 +63,7 @@ public class Events implements Listener
         {
             JsonObject data = dataUtils.packageData(player, e);
 
-            dataUtils.writeToFile(data);
+            dataUtils.writeToFile(data, dataUtils.outputFileName);
         }
     }
 
@@ -72,7 +75,7 @@ public class Events implements Listener
         JsonObject data = dataUtils.packageData(p, e);
         data.addProperty("block", e.getBlock().getType().name());
         
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -83,7 +86,7 @@ public class Events implements Listener
         JsonObject data = dataUtils.packageData(p, e);
         data.addProperty("block", e.getBlock().getType().name());
         
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -99,7 +102,7 @@ public class Events implements Listener
             data.addProperty("cause", e.getCause().toString());
             data.addProperty("weapon", p.getInventory().getItemInMainHand().getType().toString());
 
-            dataUtils.writeToFile(data);
+            dataUtils.writeToFile(data, dataUtils.outputFileName);
         }
     }
 
@@ -114,7 +117,7 @@ public class Events implements Listener
             data.addProperty("target", e.getHitEntity().getType().toString());
             data.addProperty("weapon", e.getEntity().getType().toString());
 
-            dataUtils.writeToFile(data);
+            dataUtils.writeToFile(data, dataUtils.outputFileName);
         }
 
         if (e.getEntity() instanceof Trident && e.getEntity().getShooter() instanceof Player && e.getHitEntity() != null)
@@ -125,7 +128,7 @@ public class Events implements Listener
             data.addProperty("target", e.getHitEntity().getType().toString());
             data.addProperty("weapon", e.getEntity().getType().toString());
 
-            dataUtils.writeToFile(data);
+            dataUtils.writeToFile(data, dataUtils.outputFileName);
         }
     }
 
@@ -136,7 +139,7 @@ public class Events implements Listener
 
         JsonObject data = dataUtils.packageData(p, e);
 
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -146,7 +149,7 @@ public class Events implements Listener
 
         JsonObject data = dataUtils.packageData(p, e);
 
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -158,7 +161,7 @@ public class Events implements Listener
 
         data.addProperty("oldWorld", e.getFrom().getName());
 
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -168,7 +171,7 @@ public class Events implements Listener
 
         JsonObject data = dataUtils.packageData(p, e);
 
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -179,7 +182,7 @@ public class Events implements Listener
         JsonObject data = dataUtils.packageData(p, e);
         data.addProperty("itemDrop", e.getItemDrop().getName());
 
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -189,7 +192,7 @@ public class Events implements Listener
 
         JsonObject data = dataUtils.packageData(p, e);
 
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -199,7 +202,7 @@ public class Events implements Listener
 
         JsonObject data = dataUtils.packageData(p, e);
 
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -210,7 +213,7 @@ public class Events implements Listener
         JsonObject data = dataUtils.packageData(p, e);
         data.addProperty("entity", e.getEntity().getName());
 
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -221,7 +224,7 @@ public class Events implements Listener
         JsonObject data = dataUtils.packageData(p, e);
         data.addProperty("entity", e.getEntity().getName());
 
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -234,7 +237,7 @@ public class Events implements Listener
             JsonObject data = dataUtils.packageData(p, e);
             data.addProperty("hatched", true);
 
-            dataUtils.writeToFile(data);
+            dataUtils.writeToFile(data, dataUtils.outputFileName);
         }
     }
 
@@ -245,7 +248,7 @@ public class Events implements Listener
 
         JsonObject data = dataUtils.packageData(p, e);
 
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -255,7 +258,7 @@ public class Events implements Listener
 
         JsonObject data = dataUtils.packageData(p, e);
 
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
     @EventHandler
@@ -265,6 +268,14 @@ public class Events implements Listener
 
         JsonObject data = dataUtils.packageData(p, e);
 
-        dataUtils.writeToFile(data);
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
+    }
+
+    @EventHandler
+    public void onPlayerChat(AsyncChatEvent e) 
+    {
+        JsonObject data = chatDataUtils.packageChatData(e.getPlayer(), e);
+
+        dataUtils.writeToFile(data, chatDataUtils.outputFileName);
     }
 }

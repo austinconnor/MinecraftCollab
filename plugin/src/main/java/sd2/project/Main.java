@@ -8,6 +8,7 @@ import net.md_5.bungee.api.ChatColor;
 import sd2.project.cmds.ClearData;
 import sd2.project.cmds.SendData;
 import sd2.project.events.Events;
+import sd2.project.utils.ChatDataUtils;
 import sd2.project.utils.DataUtils;
 
 public class Main extends JavaPlugin
@@ -18,6 +19,7 @@ public class Main extends JavaPlugin
                                         ChatColor.RESET + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;
 
     public DataUtils dataUtils = new DataUtils();
+    public ChatDataUtils chatDataUtils = new ChatDataUtils();
 
     // The period of time to send data in minutes.
     static final int period = 1;
@@ -37,8 +39,10 @@ public class Main extends JavaPlugin
             public void run()
             {
                
-                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB() + " documents this time around.");
+                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB(dataUtils.dataURI, dataUtils.outputFileName) + " data documents this time around.");
+                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB(chatDataUtils.chatURI, chatDataUtils.outputFileName) + " data documents this time around.");
                 dataUtils.clearFile(dataUtils.outputFileName);
+                dataUtils.clearFile(chatDataUtils.outputFileName);
 
             }   
 
@@ -55,7 +59,7 @@ public class Main extends JavaPlugin
     }
 
     // To-Do list
-    // 1. Reformat data
-    // 2. Set timer for sending data and clearing file
-    // 3. Add the remainder of the events
+    // 1. Ensure data goes to their respective collections
+    // 2. Make sure the hash works with multiple players
+    // 3. Associate a player with a number via a HashMap? (Post-data collection)
 }

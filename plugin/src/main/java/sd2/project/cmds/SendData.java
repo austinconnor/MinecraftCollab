@@ -7,12 +7,14 @@ import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatColor;
 import sd2.project.Main;
+import sd2.project.utils.ChatDataUtils;
 import sd2.project.utils.DataUtils;
 
 public class SendData implements CommandExecutor
 {
 
     DataUtils dataUtils = new DataUtils();
+    ChatDataUtils chatDataUtils = new ChatDataUtils();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
@@ -25,7 +27,8 @@ public class SendData implements CommandExecutor
 
                 if (p.hasPermission("data.admin"))
                 {
-                    p.sendMessage(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB() + " documents.");
+                    p.sendMessage(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB(dataUtils.dataURI, dataUtils.outputFileName) + " data documents.");
+                    p.sendMessage(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB(chatDataUtils.chatURI, chatDataUtils.outputFileName) + " chat documents.");
                     //dataUtils.clearOutput();
                     return true;
                 }
@@ -35,7 +38,8 @@ public class SendData implements CommandExecutor
                     return false;
                 }
             } 
-            System.out.println(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB() + " documents.");
+            System.out.println(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB(dataUtils.dataURI, dataUtils.outputFileName) + " data documents.");
+            System.out.println(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB(chatDataUtils.chatURI, chatDataUtils.outputFileName) + " chat documents.");
             //dataUtils.clearOutput();
         }
         

@@ -17,6 +17,7 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -29,7 +30,13 @@ public class DataUtils
 
     private FileWriter outputFile;
     public String outputFileName = "output.json";
-	private String mongoURI = "placeholder";
+	public String dataURI = "placeholder";
+
+
+    public String hashPlayer(Player p)
+    {
+        return DigestUtils.md5Hex(p.getName()); 
+    }
 
     // Use HeapCraft tab action data and add it as a parameter for the data
 
@@ -47,12 +54,12 @@ public class DataUtils
 
         // Adding necessary data to our object.
         json.add("location", gson.toJsonTree(locationData));
-        json.addProperty("player", player.getName().hashCode());
+        json.addProperty("player", hashPlayer(player));
         json.addProperty("worldName", player.getWorld().getName());
         json.addProperty("worldTime", player.getWorld().getFullTime());
         json.addProperty("event", e.getEventName());
         
-        // An example of an output: {"location":{"x":233,"y":72,"z":92,"worldName": "world", "worldTime":4764}, "playerID": "Stoworm", "event": "PlayerMoveEvent"}
+        // An example of an output: { "location": { "x": 233,"y": 72,"z": 92}, "worldName": "world","worldTime": 4764,"playerID": "69420","event": "PlayerMoveEvent"}
 
         Bukkit.broadcastMessage(json.toString());
 
@@ -60,12 +67,12 @@ public class DataUtils
     }
 
     // Upon successfully writing to the local file, return true.
-    public boolean writeToFile(JsonObject data)
+    public boolean writeToFile(JsonObject data, String fileName)
     {
         try
         {
             // Declare and write to the output file.
-            outputFile = new FileWriter(outputFileName, true);
+            outputFile = new FileWriter(fileName, true);
             outputFile.append(data.toString() + "\n");
             outputFile.close();
         }
@@ -118,13 +125,13 @@ public class DataUtils
     }
 
     // Uploads current data to the database.
-    public int writeToDB()
+    public int writeToDB(String uri, String outputFile)
     {
-        MongoClient mongoClient = new MongoClient(new MongoClientURI(mongoURI));
+        MongoClient mongoClient = new MongoClient(new MongoClientURI(uri));
         MongoDatabase database = mongoClient.getDatabase("Data");
         MongoCollection<Document> collection = database.getCollection("worldData");
 
-        List<Document> dataList = parseFileToList(outputFileName);
+        List<Document> dataList = parseFileToList(outputFile);
 
         // Get the file output.json
         try 
