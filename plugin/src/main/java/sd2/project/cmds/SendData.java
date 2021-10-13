@@ -27,8 +27,8 @@ public class SendData implements CommandExecutor
 
                 if (p.hasPermission("data.admin"))
                 {
-                    p.sendMessage(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB(dataUtils.dataURI, dataUtils.outputFileName) + " data documents.");
-                    p.sendMessage(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB(chatDataUtils.chatURI, chatDataUtils.outputFileName) + " chat documents.");
+                    p.sendMessage(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB("worldData", dataUtils.outputFileName) + " data documents.");
+                    p.sendMessage(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB("chatData", chatDataUtils.outputFileName) + " chat documents.");
                     //dataUtils.clearOutput();
                     return true;
                 }
@@ -38,8 +38,8 @@ public class SendData implements CommandExecutor
                     return false;
                 }
             } 
-            System.out.println(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB(dataUtils.dataURI, dataUtils.outputFileName) + " data documents.");
-            System.out.println(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB(chatDataUtils.chatURI, chatDataUtils.outputFileName) + " chat documents.");
+            System.out.println(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB("worldData", dataUtils.outputFileName) + " data documents.");
+            System.out.println(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB("chatData", chatDataUtils.outputFileName) + " chat documents.");
             //dataUtils.clearOutput();
         }
         

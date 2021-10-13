@@ -125,11 +125,11 @@ public class DataUtils
     }
 
     // Uploads current data to the database.
-    public int writeToDB(String uri, String outputFile)
+    public int writeToDB(String dbName, String outputFile)
     {
-        MongoClient mongoClient = new MongoClient(new MongoClientURI(uri));
+        MongoClient mongoClient = new MongoClient(new MongoClientURI(dataURI));
         MongoDatabase database = mongoClient.getDatabase("Data");
-        MongoCollection<Document> collection = database.getCollection("worldData");
+        MongoCollection<Document> collection = database.getCollection(dbName);
 
         List<Document> dataList = parseFileToList(outputFile);
 
