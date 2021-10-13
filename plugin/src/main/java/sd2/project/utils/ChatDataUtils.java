@@ -2,7 +2,6 @@ package sd2.project.utils;
 
 import com.google.gson.JsonObject;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
@@ -24,12 +23,10 @@ public class ChatDataUtils
         String message = PaperComponents.plainSerializer().serialize(e.originalMessage());
 
         json.addProperty("player", dataUtils.hashPlayer(player));
+        json.addProperty("time", player.getWorld().getFullTime());
         json.addProperty("message", message);
         
         // An example of an output: {"playerID": "69420","message": "This is a message!"}
-
-        Bukkit.broadcastMessage(json.toString());
-
         return json;
     }
 }

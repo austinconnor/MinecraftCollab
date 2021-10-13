@@ -73,7 +73,7 @@ public class Events implements Listener
         Player p = e.getPlayer();
 
         JsonObject data = dataUtils.packageData(p, e);
-        data.addProperty("block", e.getBlock().getType().name());
+        data.addProperty("block", e.getBlock().getType().toString());
         
         dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
@@ -84,7 +84,7 @@ public class Events implements Listener
         Player p = e.getPlayer();
 
         JsonObject data = dataUtils.packageData(p, e);
-        data.addProperty("block", e.getBlock().getType().name());
+        data.addProperty("block", e.getBlockPlaced().getType().toString());
         
         dataUtils.writeToFile(data, dataUtils.outputFileName);
     }

@@ -39,8 +39,8 @@ public class Main extends JavaPlugin
             public void run()
             {
                
-                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("worldData", dataUtils.outputFileName) + " data documents this time around.");
-                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("chatData", chatDataUtils.outputFileName) + " data documents this time around.");
+                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("worldData", dataUtils.outputFileName) + " PLAYER data documents this time around.");
+                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("chatData", chatDataUtils.outputFileName) + " CHAT data documents this time around.");
                 dataUtils.clearFile(dataUtils.outputFileName);
                 dataUtils.clearFile(chatDataUtils.outputFileName);
 

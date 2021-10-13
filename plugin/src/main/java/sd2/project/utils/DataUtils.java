@@ -19,7 +19,6 @@ import com.mongodb.client.MongoDatabase;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.Document;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -59,9 +58,8 @@ public class DataUtils
         json.addProperty("worldTime", player.getWorld().getFullTime());
         json.addProperty("event", e.getEventName());
         
-        // An example of an output: { "location": { "x": 233,"y": 72,"z": 92}, "worldName": "world","worldTime": 4764,"playerID": "69420","event": "PlayerMoveEvent"}
 
-        Bukkit.broadcastMessage(json.toString());
+        // An example of an output: { "location": { "x": 233,"y": 72,"z": 92}, "worldName": "world","worldTime": 4764,"playerID": "69420","event": "PlayerMoveEvent"}
 
         return json;
     }
@@ -136,6 +134,10 @@ public class DataUtils
         // Get the file output.json
         try 
         {
+
+            if (dataList.isEmpty())
+                return -1;
+
             System.out.println("Size of list" + dataList.size());
             collection.insertMany(dataList);
         } 

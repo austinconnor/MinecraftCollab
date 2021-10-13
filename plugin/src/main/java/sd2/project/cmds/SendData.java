@@ -40,7 +40,9 @@ public class SendData implements CommandExecutor
             } 
             System.out.println(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB("worldData", dataUtils.outputFileName) + " data documents.");
             System.out.println(Main.prefix + ChatColor.GREEN + "Uploaded " + dataUtils.writeToDB("chatData", chatDataUtils.outputFileName) + " chat documents.");
-            //dataUtils.clearOutput();
+
+            dataUtils.clearFile(dataUtils.outputFileName);
+            dataUtils.clearFile(chatDataUtils.outputFileName);
         }
         
         return true;
