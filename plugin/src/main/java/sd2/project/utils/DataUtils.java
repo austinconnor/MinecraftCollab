@@ -131,15 +131,19 @@ public class DataUtils
 
         List<Document> dataList = parseFileToList(outputFile);
 
+        if (dataList.isEmpty())
+        {
+            mongoClient.close();
+            return -1;
+        }
+
         // Get the file output.json
         try 
         {
-
-            if (dataList.isEmpty())
-                return -1;
-
             System.out.println("Size of list" + dataList.size());
             collection.insertMany(dataList);
+
+            mongoClient.close();
         } 
         catch (Exception e) 
         {
