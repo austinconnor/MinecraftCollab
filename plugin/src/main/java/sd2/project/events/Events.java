@@ -2,6 +2,7 @@ package sd2.project.events;
 
 import com.google.gson.JsonObject;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -17,9 +18,12 @@ import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -46,6 +50,10 @@ public class Events implements Listener
         int fromX, fromY, fromZ;
         int toX, toY, toZ;
 
+        // We don't want to collect data from admins that are in creative mode for specific reasons.
+        if (player.getGameMode() == GameMode.CREATIVE)
+            return;
+
         // Gather necessary information. In Minecraft, the coordinate of a player
         // is a double, but if we use getBlockX, we chop it down into an int by taking the floor.
         // Note: the from location is from the previous step you took. If I was in block 35 before I moved to block 36,
@@ -64,6 +72,7 @@ public class Events implements Listener
             JsonObject data = dataUtils.packageData(player, e);
 
             dataUtils.writeToFile(data, dataUtils.outputFileName);
+
         }
     }
 
@@ -87,6 +96,7 @@ public class Events implements Listener
         data.addProperty("block", e.getBlockPlaced().getType().toString());
         
         dataUtils.writeToFile(data, dataUtils.outputFileName);
+
     }
 
     @EventHandler
@@ -269,6 +279,38 @@ public class Events implements Listener
         JsonObject data = dataUtils.packageData(p, e);
 
         dataUtils.writeToFile(data, dataUtils.outputFileName);
+    }
+
+    @EventHandler
+    public void onBucketPlace(PlayerBucketEmptyEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
+    }
+
+    @EventHandler
+    public void onBucketPlace(PlayerBucketFillEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+
+        dataUtils.writeToFile(data, dataUtils.outputFileName);
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e)
+    {
+        Player p = e.getPlayer();
+
+        JsonObject data = dataUtils.packageData(p, e);
+
+        data.addProperty("itemHeld", p.getItemInUse().getType().toString());
+
+        dataUtils.writeToFile(data, dataUtils.outputFileName);   
     }
 
     @EventHandler
