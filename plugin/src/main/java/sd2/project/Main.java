@@ -1,5 +1,9 @@
 package sd2.project;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoDatabase;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -13,6 +17,10 @@ import sd2.project.utils.DataUtils;
 
 public class Main extends JavaPlugin
 {
+
+    public static MongoClient mongoClient = null;
+    public static MongoDatabase database = null;
+
     // Chat prefix [DC] <message>
     public static final String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.RED + 
                                         ChatColor.BOLD + "D" + ChatColor.WHITE + ChatColor.BOLD + "C" + 
@@ -27,6 +35,9 @@ public class Main extends JavaPlugin
     @Override
     public void onEnable()
     {
+        mongoClient = new MongoClient(new MongoClientURI(dataUtils.dataURI));
+        database = mongoClient.getDatabase("Data");
+
         getLogger().info(prefix + ChatColor.RED + "DataCollection" + ChatColor.GRAY + " been enabled.");
         Bukkit.getServer().getPluginManager().registerEvents(new Events(), this);
 
@@ -38,7 +49,6 @@ public class Main extends JavaPlugin
         {
             public void run()
             {
-               
                 getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("worldData", dataUtils.outputFileName) + " PLAYER data documents this time around.");
                 getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("chatData", chatDataUtils.outputFileName) + " CHAT data documents this time around.");
                 dataUtils.clearFile(dataUtils.outputFileName);
@@ -55,6 +65,7 @@ public class Main extends JavaPlugin
     @Override
     public void onDisable()
     {
+        mongoClient.close();
         getLogger().info(prefix + ChatColor.RED + "DataCollection" + ChatColor.GRAY + " been disabled.");
     }
 

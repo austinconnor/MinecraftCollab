@@ -2,6 +2,7 @@ package sd2.project.events;
 
 import com.google.gson.JsonObject;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
@@ -295,17 +296,20 @@ public class Events implements Listener
         Player p = e.getPlayer();
 
         JsonObject data = dataUtils.packageData(p, e);
+        data.addProperty("contents", e.getBucket().toString());
 
+        
         dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
-
+    
     @EventHandler
-    public void onBucketPlace(PlayerBucketFillEvent e)
+    public void onBucketFill(PlayerBucketFillEvent e)
     {
         Player p = e.getPlayer();
-
+        
         JsonObject data = dataUtils.packageData(p, e);
-
+        data.addProperty("contents", e.getBlockClicked().getType().toString());
+        
         dataUtils.writeToFile(data, dataUtils.outputFileName);
     }
 
@@ -320,7 +324,8 @@ public class Events implements Listener
 
         JsonObject data = dataUtils.packageData(p, e);
 
-        data.addProperty("itemHeld", p.getItemInUse().getType().toString());
+        data.addProperty("itemHeld", p.getInventory().getItemInMainHand().getType().toString());
+        data.addProperty("action", e.getAction().toString());
 
         dataUtils.writeToFile(data, dataUtils.outputFileName);   
     }

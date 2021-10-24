@@ -12,19 +12,17 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.Document;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import sd2.project.Main;
+
 public class DataUtils 
 {
-    
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private FileWriter outputFile;
@@ -125,16 +123,15 @@ public class DataUtils
     // Uploads current data to the database.
     public int writeToDB(String dbName, String outputFile)
     {
-        MongoClient mongoClient = new MongoClient(new MongoClientURI(dataURI));
-        MongoDatabase database = mongoClient.getDatabase("Data");
-        MongoCollection<Document> collection = database.getCollection(dbName);
+        
+        MongoCollection<Document> collection = Main.database.getCollection(dbName);
 
         List<Document> dataList = parseFileToList(outputFile);
 
         if (dataList.isEmpty())
         {
-            mongoClient.close();
-            return -1;
+            // Main.mongoClient.close();
+            return 0;
         }
 
         // Get the file output.json
@@ -143,13 +140,13 @@ public class DataUtils
             System.out.println("Size of list" + dataList.size());
             collection.insertMany(dataList);
 
-            mongoClient.close();
+            // Main.mongoClient.close();
         } 
         catch (Exception e) 
         {
             e.printStackTrace();
         }
-        mongoClient.close();
+        // Main.mongoClient.close();
         return dataList.size();
     }
 }
