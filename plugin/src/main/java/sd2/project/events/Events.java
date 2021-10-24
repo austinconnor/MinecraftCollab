@@ -81,6 +81,10 @@ public class Events implements Listener
     {
         Player p = e.getPlayer();
 
+        // We don't want to collect data from admins that are in creative mode for specific reasons.
+        if (p.getGameMode() == GameMode.CREATIVE)
+            return;
+
         JsonObject data = dataUtils.packageData(p, e);
         data.addProperty("block", e.getBlock().getType().toString());
         
@@ -91,6 +95,10 @@ public class Events implements Listener
     public void onBlockPlace(BlockPlaceEvent e)
     {
         Player p = e.getPlayer();
+
+        // We don't want to collect data from admins that are in creative mode for specific reasons.
+        if (p.getGameMode() == GameMode.CREATIVE)
+            return;
 
         JsonObject data = dataUtils.packageData(p, e);
         data.addProperty("block", e.getBlockPlaced().getType().toString());
@@ -305,6 +313,10 @@ public class Events implements Listener
     public void onInteract(PlayerInteractEvent e)
     {
         Player p = e.getPlayer();
+
+        // We don't want to collect data from admins that are in creative mode for specific reasons.
+        if (p.getGameMode() == GameMode.CREATIVE)
+            return;
 
         JsonObject data = dataUtils.packageData(p, e);
 
