@@ -51,7 +51,7 @@ public class Events implements Listener
         int toX, toY, toZ;
 
         // We don't want to collect data from admins that are in creative mode for specific reasons.
-        if (player.getGameMode() == GameMode.CREATIVE)
+        if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR)
             return;
 
         // Gather necessary information. In Minecraft, the coordinate of a player
@@ -82,7 +82,7 @@ public class Events implements Listener
         Player p = e.getPlayer();
 
         // We don't want to collect data from admins that are in creative mode for specific reasons.
-        if (p.getGameMode() == GameMode.CREATIVE)
+        if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR)
             return;
 
         JsonObject data = dataUtils.packageData(p, e);
@@ -97,7 +97,7 @@ public class Events implements Listener
         Player p = e.getPlayer();
 
         // We don't want to collect data from admins that are in creative mode for specific reasons.
-        if (p.getGameMode() == GameMode.CREATIVE)
+        if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR)
             return;
 
         JsonObject data = dataUtils.packageData(p, e);
@@ -315,7 +315,7 @@ public class Events implements Listener
         Player p = e.getPlayer();
 
         // We don't want to collect data from admins that are in creative mode for specific reasons.
-        if (p.getGameMode() == GameMode.CREATIVE)
+        if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR)
             return;
 
         JsonObject data = dataUtils.packageData(p, e);
