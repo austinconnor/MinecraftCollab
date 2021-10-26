@@ -1,0 +1,101 @@
+.nav-pills .nav-link.active {
+    color: #fff;
+    background-color: #4f4f7f;
+}
+.nav-link {
+    color: #4f4f7f;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+canvas {
+  image-rendering: optimizeSpeed;             /* Older versions of FF          */
+  image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
+  image-rendering: -webkit-optimize-contrast; /* Safari                        */
+  image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
+  image-rendering: pixelated;                 /* Awesome future-browsers       */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
+}
+#wrapper {
+    position:relative;
+    border: 1px solid #9C9898;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: auto;
+    width: 1000px;
+    height: 1000px;
+}
+
+#buttonWrapper {
+    position: absolute;
+    width: 30px;
+    top: 2px;
+    right: 2px;
+}
+/* #HeatMapCanvas {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  position: fixed;
+  width: auto;
+  height: auto;
+} */
+
+input[type="button"] {
+    padding: 5px;
+    width: 30px;
+    margin: 0px 0px 2px 0px;
+}
+
+/* .App {
+    height: 100vh;
+    width: 100%;
+    background-color: #282c34;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  .nav{
+    height: 10vh;
+    background-color: #3e4450;
+    display: flex;
+  }
+  
+  .navText{
+    color: white;
+    margin-left: 2vh;
+    font-size: calc(12px + 2vh);
+  }
+  
+  .logo{
+    height: 9vh;
+    margin-left: 1vw;
+  }
+  
+  .map{
+    background-color: white;
+    height: 80%;
+    width: 80%;
+    border-radius: 20px;
+    margin-left: 10%;
+    margin-top: 2%;
+  } */
+
+  /* body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+   */
