@@ -22,15 +22,15 @@ function createTrace(filename, player, mode, type){
         name: player,
         marker: {
             color: random_color,
-            size: 2,
+            size: 3,
             symbol: 'circle',
             line: {
                 color: random_color,
                 width: 0
             }},
         line: {
-            color: '#1f77b4',
-            width: 2
+            color: random_color,
+            width: 1
         },
         type: type
         };
@@ -41,8 +41,8 @@ function createTrace(filename, player, mode, type){
 
     
 }
-for(var i = 35; i < 40; i++){
-    createTrace('./data/'+ i.toString() + '_move.csv', i.toString(), 'lines+markers', 'scatter3d')
+for(var i = 0; i < 40; i++){
+    createTrace('./data/'+ i.toString() + '_move.csv', 'Player ' + i.toString(), 'lines+markers', 'scatter3d')
 }
 
 console.log(data[1])
@@ -50,8 +50,8 @@ console.log(data[1])
 var layout = {
     title: 'ALL PLAYER PLOT',
     autosize: true,
-    width: 1000,
-    height: 1000,
+    width: 1500,
+    height: 1500,
     margin: {
         l: 0,
         r: 0,
@@ -62,6 +62,72 @@ var layout = {
 
 setTimeout(function(){ console.log(data); Plotly.newPlot('my3DPoints', data, layout, {responsive: true, displaylogo: false}); }, 5000);
 
+
+// var data1 = [];
+// function createHeat(filename, player, mode, type){
+
+//     var ret;
+//     d3.csv(filename, function(err, rows) {
+    
+//         function unpack(rows, key) {
+//             return rows.map(function(row)
+//             { return row[key]; });
+//         }
+
+//         r = Math.floor(Math.random() * 256).toString()
+//         g = Math.floor(Math.random() * 256).toString()
+//         b = Math.floor(Math.random() * 256).toString()
+//         random_color = 'rgb(' + r + ',' + g + ',' + b +')';
+//         var trace = {
+//         x: unpack(rows, 'x'),
+//         y: unpack(rows, 'z'),
+//         z: unpack(rows, 'y'),
+//         mode: mode,
+//         name: player,
+//         marker: {
+//             color: random_color,
+//             // colorscale: 'Hot',
+//             size: 1,
+//             symbol: 'circle',
+//             line: {
+//                 color: random_color,
+//                 width: 0
+//             }},
+//         line: {
+//             // color: random_color,
+//             width: 1
+//         },
+//         type: type
+//         };
+//         data1.push(trace);
+//         console.log(data1.length)
+        
+//     });
+
+    
+// }
+// for(var i = 0; i < 40; i++){
+//     createHeat('./data/'+ i.toString() + '_move.csv', 'Player ' + i.toString(), 'markers', 'scatter3d')
+// }
+
+// console.log(data1[1])
+
+// var layout = {
+//     title: 'ALL PLAYER PLOT',
+//     autosize: true,
+//     width: 1500,
+//     height: 1500,
+//     // showscale:true,
+//     // colorscale: 'Hot',
+//     margin: {
+//         l: 0,
+//         r: 0,
+//         b: 0,
+//         t: 65
+//     }
+// };
+
+// setTimeout(function(){ console.log(data1); Plotly.newPlot('my3DHeat', data1, layout, {responsive: true, displaylogo: false}); }, 5000);
 
 
 

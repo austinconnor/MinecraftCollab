@@ -38,15 +38,15 @@ function createTrace(filename, player, mode, type){
     });
 }
 
-for(var i = 0; i < 20; i++){
+for(var i = 10; i < 25; i++){
     createTrace('./data/'+ i.toString() + '_move.csv', i.toString(), 'markers', 'scatter')
 }
 
 var layout = {
 title: '2D Movement Plot',
 autosize: true,
-width: 1000,
-height: 1000,
+width: 1500,
+height: 1500,
 margin: {
     l: 0,
     r: 0,
