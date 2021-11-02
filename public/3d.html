@@ -9,7 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     	<!-- Load plotly.js into the DOM -->
-	<script src='https://cdn.plot.ly/plotly-2.4.2.min.js'></script>
+   	<script src='https://cdn.plot.ly/plotly-2.4.2.min.js'></script>
+     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js"></script>
     <!-- <script src="jquery-csv.js"></script> -->
@@ -39,11 +40,36 @@
             </ul>
         </div>
     </nav>
-    
-    <div id='my3DPoints'></div>
+    <h1>The Overworld</h1>
+    <div id='Overworld_Move_3DPoints'></div>
+    <div id='Overworld_Death_3DPoints'></div>
+    <div id='Overworld_BlockBreak_3DPoints'></div>
+    <div id='Overworld_BlockPlace_3DPoints'></div>
     <!-- <div id='my3DHeatMap'></div> -->
+    <h1>The Nether</h1>
+    <div id='Nether_Move_3DPoints'></div>
+    <div id='Nether_Death_3DPoints'></div>
+    <div id='Nether_BlockBreak_3DPoints'></div>
+    <div id='Nether_BlockPlace_3DPoints'></div>
+    <h1>The End</h1>
+    <div id='End_Move_3DPoints'></div>
+    <div id='End_Death_3DPoints'></div>
+    <div id='End_BlockBreak_3DPoints'></div>
+    <div id='End_BlockPlace_3DPoints'></div>
+
+    <div class="showcase__section" id="bubble">
+      <div class="spacer --small"></div>
+      <div id="bubbleplots">
+        <div class="bubbleplot" data-num="0">
+          <div class="plot" id="plotdiv"></div>
+          <div class="control-row">
+            Country: <select class="countrydata">
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="../src/js/3D.js"></script>
-    
-    <!-- <script src="../src/js/3D.js"></script> -->
+
   </body>
 </html>
