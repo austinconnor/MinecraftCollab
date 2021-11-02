@@ -1,7 +1,7 @@
-function createPlot(folder_path, file_event, event_name, div_name) {
+function createPlot(folder_path, file_event, event_name, div_name, random_color) {
     var data = [];
 
-    function createTrace(data, filename, player, mode, type){
+    function createTrace(data, filename, player, mode, type, random_color){
 
         d3.csv(filename, function(err, rows) {
         
@@ -9,11 +9,7 @@ function createPlot(folder_path, file_event, event_name, div_name) {
                 return rows.map(function(row)
                 { return row[key]; });
             }
-    
-            r = Math.floor(Math.random() * 256).toString()
-            g = Math.floor(Math.random() * 256).toString()
-            b = Math.floor(Math.random() * 256).toString()
-            random_color = 'rgb(' + r + ',' + g + ',' + b +')';
+
             var trace = {
             x: unpack(rows, 'x'),
             y: unpack(rows, 'z'),
@@ -31,7 +27,7 @@ function createPlot(folder_path, file_event, event_name, div_name) {
     }
 
     for(var i = 0; i < 10; i++){
-        createTrace(data, folder_path + i.toString() + file_event + '.csv', 'Player ' + i.toString(), 'markers', 'scatter3d')
+        createTrace(data, folder_path + i.toString() + file_event + '.csv', 'Player ' + i.toString(), 'markers', 'scatter', random_color[i])
     }
     
     var layout = {
@@ -50,7 +46,29 @@ function createPlot(folder_path, file_event, event_name, div_name) {
     setTimeout(function(){ console.log(data); Plotly.newPlot(div_name, data, layout, {responsive: true, displaylogo: false}); }, 5000);
 }
 
-createPlot('./data/overworld/', '_move', 'PlayerMoveEvent', 'Overworld_Move_2DPoints');
+// set the same random color per player, instead of per plot
+var random_color = [];
+for (i = 0; i < 40; i++) {
+    r = Math.floor(Math.random() * 256).toString()
+    g = Math.floor(Math.random() * 256).toString()
+    b = Math.floor(Math.random() * 256).toString()
+    random_color[i] = 'rgb(' + r + ',' + g + ',' + b +')';
+}
+
+createPlot('./data/overworld/move/', '_move', 'PlayerMoveEvent', 'Overworld_Move_2DPoints', random_color);
+createPlot('./data/overworld/death/', '_death', 'PlayerDeathEvent', 'Overworld_Death_2DPoints', random_color);
+createPlot('./data/overworld/block_break/', '_block_break', 'BlockBreakEvent', 'Overworld_BlockBreak_2DPoints', random_color);
+createPlot('./data/overworld/block_place/', '_block_place', 'BlockPlaceEvent', 'Overworld_BlockPlace_2DPoints', random_color);
+
+createPlot('./data/nether/move/', '_move', 'PlayerMoveEvent', 'Nether_Move_2DPoints', random_color);
+createPlot('./data/nether/death/', '_death', 'PlayerDeathEvent', 'Nether_Death_2DPoints', random_color);
+createPlot('./data/nether/block_break/', '_block_break', 'BlockBreakEvent', 'Nether_BlockBreak_2DPoints', random_color);
+createPlot('./data/nether/block_place/', '_block_place', 'BlockPlaceEvent', 'Nether_BlockPlace_2DPoints', random_color);
+
+createPlot('./data/end/move/', '_move', 'PlayerMoveEvent', 'End_Move_2DPoints', random_color);
+createPlot('./data/end/death/', '_death', 'PlayerDeathEvent', 'End_Death_2DPoints', random_color);
+createPlot('./data/end/block_break/', '_block_break', 'BlockBreakEvent', 'End_BlockBreak_2DPoints', random_color);
+createPlot('./data/end/block_place/', '_block_place', 'BlockPlaceEvent', 'End_BlockPlace_2DPoints', random_color);
 
 
 // // from http://bl.ocks.org/mbostock/4349187
