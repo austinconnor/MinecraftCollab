@@ -1,0 +1,5 @@
+block,x,y,z,player,worldName,time
+END_STONE,-15,56,-7,2,world_the_end,19195563
+END_STONE,-16,60,-7,2,world_the_end,19195742
+ENDER_CHEST,1298,61,383,2,world_the_end,19233999
+PURPUR_BLOCK,1351,90,-249,2,world_the_end,21769860
