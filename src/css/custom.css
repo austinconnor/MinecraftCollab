@@ -7,8 +7,10 @@
 }
 
 body {
+    background-color: darkgray;
     margin: 0px;
     padding: 0px;
+    text-align: center;
 }
 canvas {
   image-rendering: optimizeSpeed;             /* Older versions of FF          */
@@ -35,6 +37,10 @@ canvas {
     top: 2px;
     right: 2px;
 }
+
+.selects{
+  position: relative;
+}
 /* #HeatMapCanvas {
   margin-left: auto;
   margin-right: auto;
@@ -49,6 +55,16 @@ input[type="button"] {
     padding: 5px;
     width: 30px;
     margin: 0px 0px 2px 0px;
+}
+
+.map{
+  width: 750px;
+  height: 750px;
+  margin: 0 auto;
+}
+
+.worldTitle{
+  margin: 0 auto;
 }
 
 /* .App {
