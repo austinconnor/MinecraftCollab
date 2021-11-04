@@ -20,42 +20,60 @@
     <nav class="navbar navbar-dark" style="background-color:#000045;">
         <!-- Navbar content -->
         <div class="container" style="margin-right:2%">
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="index.html">
             <img src="../static/img/heapcraftLogo.png" width="45" height="45" class="d-inline-block align-center" alt="">
             MCM
           </a>
             <ul class="nav nav-pills nav-fill justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+              </li>
                 <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="index.html">2D Map</a>
+                <a class="nav-link" href="index.html">2D Map</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">3D Map</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">Somewhere</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link disabled">Def not here</a>
+                <a class="nav-link" href="documents.html">Documents</a>
                 </li>
             </ul>
         </div>
     </nav>
-    <h1>The Overworld</h1>
-    <!-- <div id='Overworld_Move_3DHeat'></div> -->
-    <div id='Overworld_Death_3DPoints'></div>
-    <div id='Overworld_BlockBreak_3DPoints'></div>
-    <div id='Overworld_BlockPlace_3DPoints'></div>
-    <!-- <div id='my3DHeatMap'></div> -->
-    <h1>The Nether</h1>
-    <div id='Nether_Move_3DPoints'></div>
-    <div id='Nether_Death_3DPoints'></div>
-    <div id='Nether_BlockBreak_3DPoints'></div>
-    <div id='Nether_BlockPlace_3DPoints'></div>
-    <h1>The End</h1>
-    <div id='End_Move_3DPoints'></div>
-    <div id='End_Death_3DPoints'></div>
-    <div id='End_BlockBreak_3DPoints'></div>
-    <div id='End_BlockPlace_3DPoints'></div>
-    <script src="../src/js/3D.js"></script>
+    <div class="selects">
+      <select id="WorldSelect" name="form_select" onchange="onChange(this)">
+        <option value="Overworld">Overworld</option>
+        <option value="Nether">Nether</option>
+        <option value="End">End</option>
+      </select>
+  
+      <select id="EventSelect" name="form_select" onchange="onChange(this)">
+        <option value="_Move_3DPoints">Movement</option>
+        <option value="_Death_3DPoints">Deaths</option>
+        <option value="_BlockBreak_3DPoints">Block Break</option>
+        <option value="_BlockPlace_3DPoints">Block Place</option>
+      </select>
+    </div>
+    
+      <h1 id="Overworld_title" class="worldTitle" value="Overworld" style="display:block;">The Overworld</h1>
+      <div class="container">
+        <div class="map" id='Overworld_Move_3DPoints' style="display:block;"></div>
+        <div class="map" id='Overworld_Death_3DPoints' style="display:none;"></div>
+        <div class="map" id='Overworld_BlockBreak_3DPoints' style="display:none;"></div>
+        <div class="map" id='Overworld_BlockPlace_3DPoints' style="display:none;"></div>
+      </div>
+      <!-- <div id='my3DHeatMap'></div> -->
+      <h1 id="Nether_title" class="worldTitle" value="Nether" style="display:none;">The Nether</h1>
+      <div class="map" id='Nether_Move_3DPoints' style="display:none;"></div>
+      <div class="map" id='Nether_Death_3DPoints' style="display:none;"></div>
+      <div class="map" id='Nether_BlockBreak_3DPoints' style="display:none;"></div>
+      <div class="map" id='Nether_BlockPlace_3DPoints' style="display:none;"></div>
+  
+      <h1 id="End_title" class="worldTitle" value="End" style="display:none;">The End</h1>
+      <div class="map" id='End_Move_3DPoints' style="display:none;"></div>
+      <div class="map" id='End_Death_3DPoints' style="display:none;"></div>
+      <div class="map" id='End_BlockBreak_3DPoints' style="display:none;"></div>
+      <div class="map" id='End_BlockPlace_3DPoints' style="display:none;"></div>
+      <script src="../src/js/3D.js"></script>
   </body>
 </html>

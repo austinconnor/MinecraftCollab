@@ -56,6 +56,30 @@ for (i = 0; i < 40; i++) {
 }
 
 createPlot('./data/overworld/move/', '_move', 'PlayerMoveEvent', 'Overworld_Move_2DPoints', random_color);
+
+function onChange(selection){
+    var worldSelector = document.getElementById("WorldSelect");
+    var eventSelector = document.getElementById("EventSelect");
+
+    var plotID = worldSelector.value + eventSelector.value;
+    var titleID = worldSelector.value + "_title";
+    console.log(plotID)
+
+    var maps = document.getElementsByClassName("map");
+    var titles = document.getElementsByClassName("worldTitle");
+
+    for(var i = 0; i < titles.length; i++){
+        titles[i].style.display = "none";
+    }
+
+    for(var i = 0; i < maps.length; i++){
+        maps[i].style.display = "none";
+    }
+
+    document.getElementById(titleID).style.display = "block";
+    document.getElementById(plotID).style.display = "block";
+}
+
 createPlot('./data/overworld/death/', '_death', 'PlayerDeathEvent', 'Overworld_Death_2DPoints', random_color);
 createPlot('./data/overworld/block_break/', '_block_break', 'BlockBreakEvent', 'Overworld_BlockBreak_2DPoints', random_color);
 createPlot('./data/overworld/block_place/', '_block_place', 'BlockPlaceEvent', 'Overworld_BlockPlace_2DPoints', random_color);
