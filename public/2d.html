@@ -13,13 +13,13 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
     <link rel="stylesheet" href="../src/css/custom.css">
   </head>
-  <body onmousedown="return false;">
+  <body>
     <nav class="navbar navbar-dark" style="background-color:#000045;">
         <!-- Navbar content -->
-        <div class="container" style="margin-right:2%">
+        <div class="container">
           <a class="navbar-brand" href="index.html">
             <img src="../static/img/heapcraftLogo.png" width="45" height="45" class="d-inline-block align-center" alt="">
-            MCM
+            Group 21: Measuring Collaboration in Minecraft
           </a>
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item">
@@ -34,41 +34,53 @@
                 <li class="nav-item">
                 <a class="nav-link" href="documents.html">Documents</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="participants.html">Participants</a>
+                </li>
             </ul>
         </div>
     </nav>
-    <div class="selects">
-      <select id="WorldSelect" name="form_select" onchange="onChange(this)">
-        <option value="Overworld">Overworld</option>
-        <option value="Nether">Nether</option>
-        <option value="End">End</option>
-      </select>
-  
-      <select id="EventSelect" name="form_select" onchange="onChange(this)">
-        <option value="_Move_2DPoints">Movement</option>
-        <option value="_Death_2DPoints">Deaths</option>
-        <option value="_BlockBreak_2DPoints">Block Break</option>
-        <option value="_BlockPlace_2DPoints">Block Place</option>
-      </select>
+    <br>
+    <h1 style="text-align:center"> 2D Map</h1>
+    <br>
+    <div class="row">
+      <div class="col-sm-5"></div>
+      <div class="col-sm-1 world_select">
+        <select id="WorldSelect" name="form_select" onchange="onChange(this)">
+          <option value="Overworld">Overworld</option>
+          <option value="Nether">Nether</option>
+          <option value="End">End</option>
+        </select>
+      </div>
+      <div class="col-sm-1 event_select">
+        <select id="EventSelect" name="form_select" onchange="onChange(this)">
+          <option value="_Move_2DPoints">Movement</option>
+          <option value="_Death_2DPoints">Deaths</option>
+          <option value="_BlockBreak_2DPoints">Block Break</option>
+          <option value="_BlockPlace_2DPoints">Block Place</option>
+        </select>
+      </div>
+      <div class="col-sm-5"></div>
     </div>
-  
-    <h1 id="Overworld_title" class="worldTitle" value="Overworld" style="display:block;">The Overworld</h1>
+      
+    <br>
+    <h3 id="Overworld_title" class="worldTitle" value="Overworld" style="display:block;">The Overworld</h3>
     <div class="map" id='Overworld_Move_2DPoints' style="display:block;"></div>
     <div class="map" id='Overworld_Death_2DPoints' style="display:none;" ></div>
     <div class="map" id='Overworld_BlockBreak_2DPoints' style="display:none;"></div>
     <div class="map" id='Overworld_BlockPlace_2DPoints'style="display:none;"></div>
   
-    <h1 id="Nether_title" class="worldTitle" value="Nether" style="display:none;">The Nether</h1>
-    <div class="map" id='Nether_Move_2DPoints' style="display:none;"></div>
+    <h3 id="Nether_title" class="worldTitle" value="Nether" style="display:none;">The Nether</h3>
+    <!-- <div class="map" id='Nether_Move_2DPoints' style="display:none;"></div>
     <div class="map" id='Nether_Death_2DPoints' style="display:none;"></div>
     <div class="map" id='Nether_BlockBreak_2DPoints' style="display:none;"></div>
     <div class="map" id='Nether_BlockPlace_2DPoints' style="display:none;"></div>
-  
-    <h1 id="End_title" class="worldTitle" value="End" style="display:none;">The End</h1>
-    <div class="map" id='End_Move_2DPoints' style="display:none;"></div>
+   -->
+    <h3 id="End_title" class="worldTitle" value="End" style="display:none;">The End</h3>
+    <!-- <div class="map" id='End_Move_2DPoints' style="display:none;"></div>
     <div class="map" id='End_Death_2DPoints' style="display:none;"></div>
     <div class="map" id='End_BlockBreak_2DPoints' style="display:none;"></div>
-    <div class="map" id='End_BlockPlace_2DPoints' style="display:none;"></div>
+    <div class="map" id='End_BlockPlace_2DPoints' style="display:none;"></div> -->
     <script src="../src/js/2D.js"></script>
   </body>
 </html>

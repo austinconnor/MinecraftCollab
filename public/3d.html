@@ -19,17 +19,17 @@
   <body>
     <nav class="navbar navbar-dark" style="background-color:#000045;">
         <!-- Navbar content -->
-        <div class="container" style="margin-right:2%">
+        <div class="container">
           <a class="navbar-brand" href="index.html">
             <img src="../static/img/heapcraftLogo.png" width="45" height="45" class="d-inline-block align-center" alt="">
-            MCM
+            Group 21: Measuring Collaboration in Minecraft
           </a>
             <ul class="nav nav-pills nav-fill justify-content-end">
               <li class="nav-item">
                 <a class="nav-link" href="index.html">Home</a>
               </li>
                 <li class="nav-item">
-                <a class="nav-link" href="index.html">2D Map</a>
+                <a class="nav-link" href="2d.html">2D Map</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">3D Map</a>
@@ -37,25 +37,38 @@
                 <li class="nav-item">
                 <a class="nav-link" href="documents.html">Documents</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="participants.html">Participants</a>
+                </li>
             </ul>
         </div>
     </nav>
-    <div class="selects">
-      <select id="WorldSelect" name="form_select" onchange="onChange(this)">
-        <option value="Overworld">Overworld</option>
-        <option value="Nether">Nether</option>
-        <option value="End">End</option>
-      </select>
-  
-      <select id="EventSelect" name="form_select" onchange="onChange(this)">
-        <option value="_Move_3DPoints">Movement</option>
-        <option value="_Death_3DPoints">Deaths</option>
-        <option value="_BlockBreak_3DPoints">Block Break</option>
-        <option value="_BlockPlace_3DPoints">Block Place</option>
-      </select>
+    <br>
+    <h1 style="text-align:center"> 3D Map</h1>
+    <br>
+    <div class="row">
+      <div class="col-sm-5"></div>
+      <div class="col-sm-1 world_select">
+        <select id="WorldSelect" name="form_select" onchange="onChange(this)">
+          <option value="Overworld">Overworld</option>
+          <option value="Nether">Nether</option>
+          <option value="End">End</option>
+        </select>
+      </div>
+      <div class="col-sm-1 event_select">
+        <select id="EventSelect" name="form_select" onchange="onChange(this)">
+          <option value="_Move_2DPoints">Movement</option>
+          <option value="_Death_2DPoints">Deaths</option>
+          <option value="_BlockBreak_2DPoints">Block Break</option>
+          <option value="_BlockPlace_2DPoints">Block Place</option>
+        </select>
+      </div>
+      <div class="col-sm-5"></div>
     </div>
+      
+    <br>
     
-      <h1 id="Overworld_title" class="worldTitle" value="Overworld" style="display:block;">The Overworld</h1>
+      <h3 id="Overworld_title" class="worldTitle" value="Overworld" style="display:block;">The Overworld</h3>
       <div class="container">
         <div class="map" id='Overworld_Move_3DPoints' style="display:block;"></div>
         <div class="map" id='Overworld_Death_3DPoints' style="display:none;"></div>
@@ -63,13 +76,13 @@
         <div class="map" id='Overworld_BlockPlace_3DPoints' style="display:none;"></div>
       </div>
       <!-- <div id='my3DHeatMap'></div> -->
-      <h1 id="Nether_title" class="worldTitle" value="Nether" style="display:none;">The Nether</h1>
+      <h3 id="Nether_title" class="worldTitle" value="Nether" style="display:none;">The Nether</h3>
       <div class="map" id='Nether_Move_3DPoints' style="display:none;"></div>
       <div class="map" id='Nether_Death_3DPoints' style="display:none;"></div>
       <div class="map" id='Nether_BlockBreak_3DPoints' style="display:none;"></div>
       <div class="map" id='Nether_BlockPlace_3DPoints' style="display:none;"></div>
   
-      <h1 id="End_title" class="worldTitle" value="End" style="display:none;">The End</h1>
+      <h3 id="End_title" class="worldTitle" value="End" style="display:none;">The End</h3>
       <div class="map" id='End_Move_3DPoints' style="display:none;"></div>
       <div class="map" id='End_Death_3DPoints' style="display:none;"></div>
       <div class="map" id='End_BlockBreak_3DPoints' style="display:none;"></div>
