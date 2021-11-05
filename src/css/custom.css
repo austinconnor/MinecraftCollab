@@ -11,24 +11,32 @@ body {
     padding: 0px;
 }
 
-
-
-
 input[type="button"] {
     padding: 5px;
     width: 30px;
     margin: 0px 0px 2px 0px;
 }
 
-.selects{
-    position: relative;
-  }
-.map{
-    width: 750px;
-    height: 750px;
+.selects {
+    text-align: center;
+}
+
+.map {
+    width: 900px;
+    height: 900px;
     margin: 0 auto;
 }
 
-.worldTitle{
-    margin: 0 auto;
+.worldTitle {
+    text-align: center;
+}
+
+.world_select {
+    font-size: x-large;
+    text-align: right;
+}
+
+.event_select { 
+    font-size: x-large;
+    text-align: left;
 }

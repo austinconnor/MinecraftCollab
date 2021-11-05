@@ -33,8 +33,8 @@ function createPlot(folder_path, file_event, event_name, div_name, random_color)
     var layout = {
         title: event_name,
         autosize: true,
-        width: 1500,
-        height: 1500,
+        width: 900,
+        height: 900,
         margin: {
             l: 0,
             r: 0,
