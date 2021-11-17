@@ -62,6 +62,25 @@ public class DataUtils
         return json;
     }
 
+    public JsonObject packageActionData(Player player)
+    {
+        JsonObject json = new JsonObject();
+        JsonObject locationData = new JsonObject();
+
+        // This locationData object will be used to store the player's location
+        locationData.addProperty("x", player.getLocation().getBlockX());
+        locationData.addProperty("y", player.getLocation().getBlockY());
+        locationData.addProperty("z", player.getLocation().getBlockZ());
+
+        // Adding necessary data to our object.
+        json.add("location", gson.toJsonTree(locationData));
+        json.addProperty("player", hashPlayer(player));
+        json.addProperty("worldName", player.getWorld().getName());
+        json.addProperty("worldTime", player.getWorld().getFullTime());
+
+        return json;
+    }
+
     // Upon successfully writing to the local file, return true.
     public boolean writeToFile(JsonObject data, String fileName)
     {
