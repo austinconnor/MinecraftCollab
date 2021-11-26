@@ -39,6 +39,11 @@ public class DataUtils
         return DigestUtils.md5Hex(p.getName()); 
     }
 
+    public String hashPlayer(String playerName)
+    {
+        return DigestUtils.md5Hex(playerName);
+    }
+
     // Use HeapCraft tab action data and add it as a parameter for the data
 
     // This method provides us a useable JSON object that we can tweak to our needs.
@@ -97,8 +102,11 @@ public class DataUtils
             playerObj = new JsonObject();
             num = Math.round(entry.getKey() * 100);
             num = num / 100;
+
+            String nearbyPlayer = entry.getValue().getItemMeta().getDisplayName().substring(4);
+
             
-            playerObj.addProperty("player", entry.getValue().getItemMeta().getDisplayName().substring(4));
+            playerObj.addProperty("player", hashPlayer(nearbyPlayer));
             playerObj.addProperty("distance", num);
             
             nearbyPlayers.add(Integer.toString(count), gson.toJsonTree(playerObj));
