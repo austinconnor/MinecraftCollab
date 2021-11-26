@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,6 +20,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.Document;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
 
 import sd2.project.Main;
 
@@ -27,6 +30,7 @@ public class DataUtils
 
     private FileWriter outputFile;
     public String outputFileName = "output.json";
+    public String activityFileName = "activity.json";
 	public String dataURI = "placeholder";
 
 
@@ -62,10 +66,11 @@ public class DataUtils
         return json;
     }
 
-    public JsonObject packageActionData(Player player)
+    public JsonObject packageActionData(Player player, String activity, TreeMap<Double, ItemStack> map)
     {
         JsonObject json = new JsonObject();
         JsonObject locationData = new JsonObject();
+        JsonObject nearbyPlayers = new JsonObject();
 
         // This locationData object will be used to store the player's location
         locationData.addProperty("x", player.getLocation().getBlockX());
@@ -77,6 +82,33 @@ public class DataUtils
         json.addProperty("player", hashPlayer(player));
         json.addProperty("worldName", player.getWorld().getName());
         json.addProperty("worldTime", player.getWorld().getFullTime());
+
+        json.addProperty("activity", activity);
+
+        Integer count = 0;
+
+        // Add nearby players.
+
+        JsonObject playerObj;
+        double num;
+
+        for (Map.Entry<Double,ItemStack> entry : map.entrySet())
+        {
+            playerObj = new JsonObject();
+            num = Math.round(entry.getKey() * 100);
+            num = num / 100;
+            
+            playerObj.addProperty("player", entry.getValue().getItemMeta().getDisplayName().substring(4));
+            playerObj.addProperty("distance", num);
+            
+            nearbyPlayers.add(Integer.toString(count), gson.toJsonTree(playerObj));
+
+            count++;
+        }
+
+        json.add("nearbyPlayers", gson.toJsonTree(nearbyPlayers));
+        
+
 
         return json;
     }
@@ -156,7 +188,6 @@ public class DataUtils
         // Get the file output.json
         try 
         {
-            System.out.println("Size of list" + dataList.size());
             collection.insertMany(dataList);
 
             // Main.mongoClient.close();

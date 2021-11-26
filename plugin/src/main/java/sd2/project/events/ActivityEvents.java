@@ -1,5 +1,11 @@
 package sd2.project.events;
 
+import java.util.Map;
+import java.util.TreeMap;
+
+import com.google.gson.JsonObject;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,11 +18,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import net.kyori.adventure.text.Component;
 import sd2.project.Main;
+import sd2.project.utils.DataUtils;
 import sd2.project.utils.InventoryUtils;
 
 public class ActivityEvents implements Listener
 {
-    int cd = 5;
+    int cd = 270;
 
     public Main plugin;
 
@@ -26,6 +33,7 @@ public class ActivityEvents implements Listener
     }
 
     InventoryUtils invUtils = new InventoryUtils();
+    DataUtils dataUtils = new DataUtils();
 
     String [] actions = {"Mining", "Exploring", "Building", "Idle"};
 
@@ -43,10 +51,10 @@ public class ActivityEvents implements Listener
                 e.setCancelled(true);
 
                 // Check items and do stuff.
-                ItemStack currentItem = e.getCurrentItem();
-
-                if (currentItem.getItemMeta() == null || currentItem.getItemMeta().displayName() == null)
+                if (e.getCurrentItem() == null || e.getCurrentItem().getItemFlags() == null || e.getCurrentItem().getItemMeta().displayName() == null)
                     return;
+
+                ItemStack currentItem = e.getCurrentItem();
 
                 for (String s : actions)
                 {
@@ -54,19 +62,47 @@ public class ActivityEvents implements Listener
                     {
                         p.closeInventory();
 
-                        Inventory mineInv = invUtils.createActivityInventory(p, currentItem.getItemMeta().displayName());
+                        Inventory actInv = invUtils.createActivityInventory(p, currentItem.getItemMeta().displayName());
                         
-                        p.openInventory(mineInv);
+                        p.openInventory(actInv);
 
-                        // REPEATING TASK TO FILL NEARBY PLAYER HEADS HERE
-                        // Sort by closest to farthest (?)
+                        int limit = 10;
+                        int count = 0;
+                        
+                        TreeMap<Double, ItemStack> sortedHeads = new TreeMap<>();
+                        
+                        for (Player near : p.getWorld().getPlayers())
+                        {
+                            if (near == p)
+                                continue;
+                            
+                            if (count == limit)
+                            break;
+                            
+                            double distance = p.getLocation().distanceSquared(near.getLocation());
+                            
+                            sortedHeads.put(Math.sqrt(distance), invUtils.getPlayerHead(p, distance));
+                            
+                            count++;
+                        }
+                        Main.proximityData.put(p, sortedHeads);
 
-                        // Slots:
-                        // 10 - 16
-                        // 19 - 25
-                        // 28 - 34
-                        // 37 - 43
+                        
+                        
+                        int slot = 10;
 
+                        for (Map.Entry<Double,ItemStack> map : sortedHeads.entrySet())
+                        {
+
+                            actInv.setItem(slot, map.getValue());
+
+
+                            // We don't want to use slots 17 and 18.
+                            if (slot == 17)
+                                slot = 19;
+
+                            slot++;
+                        }
                         break;
                     }
                 }
@@ -89,11 +125,14 @@ public class ActivityEvents implements Listener
                 {
                     e.setCancelled(true);
 
-                    ItemStack currentItem = e.getCurrentItem();
-
-                    if (currentItem.getItemMeta() == null || currentItem.getItemMeta().displayName() == null)
+                    if ( e.getCurrentItem() == null)
                         return;
 
+                    ItemStack currentItem = e.getCurrentItem();
+                    
+                    if (currentItem.getItemMeta() == null || currentItem.getItemMeta().displayName() == null)
+                    return;
+                    
                     if (currentItem.getItemMeta().displayName().equals(Component.text(ChatColor.RED + "" + ChatColor.BOLD + "CANCEL")))
                     {
                         p.closeInventory();
@@ -106,6 +145,11 @@ public class ActivityEvents implements Listener
                         // Write data to file and prepare to send to DB.
                         p.sendMessage(Component.text(Main.prefix + ChatColor.GREEN + "Submission recorded."));
                         p.closeInventory();
+                        
+                        // Map needs to be the sorted heads TreeMap
+                        JsonObject json = dataUtils.packageActionData(p, inv.getTitle().substring(4), Main.proximityData.get(p));
+
+                        dataUtils.writeToFile(json, dataUtils.activityFileName);
 
                         // Put them into a cooldown
                         Main.cooldown.put(p.getUniqueId(), "act", cd);
@@ -125,7 +169,7 @@ public class ActivityEvents implements Listener
                                 }
                             }
                             
-                        }.runTaskTimer(plugin, 0, 20);
+                        }.runTaskTimer(plugin, 20, 20);
                     }
                     break;
                 }

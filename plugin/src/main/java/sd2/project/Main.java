@@ -1,16 +1,19 @@
 package sd2.project;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
 
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -31,6 +34,8 @@ public class Main extends JavaPlugin
 
     public static MongoClient mongoClient = null;
     public static MongoDatabase database = null;
+
+    int cd = 300;
 
     public DataUtils dataUtils = new DataUtils();
     public ChatDataUtils chatDataUtils = new ChatDataUtils();
@@ -54,27 +59,19 @@ public class Main extends JavaPlugin
     // The period of time to send data in minutes.
     static final int period = 1;
 
-    public void events()
-    {
-        PluginManager pm = Bukkit.getPluginManager();
-
-        ArrayList<Listener> eventClasses = new ArrayList<>();
-
-        eventClasses.add(new ActivityEvents(this));
-        eventClasses.add(new Events());
-
-        for (Listener l : eventClasses)
-            pm.registerEvents(l, this);
-    }
+    public static HashMap<Player, TreeMap<Double, ItemStack>> proximityData = new HashMap<>();
 
     @Override
     public void onEnable()
     {
         // Undo these comments.
-        // mongoClient = new MongoClient(new MongoClientURI(dataUtils.dataURI));
-        // database = mongoClient.getDatabase("Data");
+        mongoClient = new MongoClient(new MongoClientURI(dataUtils.dataURI));
+        database = mongoClient.getDatabase("Data");
 
-        events();
+        PluginManager pm = Bukkit.getPluginManager();
+
+        pm.registerEvents(new ActivityEvents(this), this);
+        pm.registerEvents(new Events(), this);
         
         this.getCommand("sendData").setExecutor(new SendData());
         this.getCommand("clearData").setExecutor(new ClearData());
@@ -86,18 +83,23 @@ public class Main extends JavaPlugin
         getLogger().info(prefix + ChatColor.RED + "Inventories " + ChatColor.GRAY + "have been loaded.");
         getLogger().info(prefix + ChatColor.RED + "DataCollection " + ChatColor.GRAY + "been enabled.");
         
+
+        // ok so we have to have the data properly go to the database 
+
         // Send data loop
         new BukkitRunnable()
         {
             public void run()
             {
                 // Undo these comments.
-                // getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("worldData", dataUtils.outputFileName) + " PLAYER data documents this time around.");
-                // getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("chatData", chatDataUtils.outputFileName) + " CHAT data documents this time around.");
+                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("worldData", dataUtils.outputFileName) + " PLAYER data documents this time around.");
+                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("chatData", chatDataUtils.outputFileName) + " CHAT data documents this time around.");
+                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("activityData", dataUtils.activityFileName) + " ACTIVITY data documents this time around.");
+
                 dataUtils.clearFile(dataUtils.outputFileName);
                 dataUtils.clearFile(chatDataUtils.outputFileName);
+                dataUtils.clearFile(dataUtils.activityFileName);
                 
-                // Bukkit.broadcastMessage(Main.prefix + ChatColor.LIGHT_PURPLE + "Share with us what you are doing! Use /act and select the appropriate icon or click this message.");
             }   
             
             // In Minecraft time (ticks), one human second is 20 ticks, so one human minute is 20*60 = 1200 ticks.
@@ -111,7 +113,7 @@ public class Main extends JavaPlugin
             {
                 Bukkit.broadcast(componentUtils.activityMessage);
             }
-        }.runTaskTimer(this, 20 * 30, 20 * 30);
+        }.runTaskTimer(this, 20 * cd, 20 * 30);
     }
 
     @Override

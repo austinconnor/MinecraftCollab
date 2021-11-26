@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import net.kyori.adventure.text.Component;
 import sd2.project.Main;
@@ -119,5 +120,19 @@ public class InventoryUtils
         fillGlass(inv);
         
         return inv;
+    }
+
+    public ItemStack getPlayerHead(Player p, double distance)
+    {
+        ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta skullMeta = (SkullMeta) playerHead.getItemMeta();
+        skullMeta.setOwningPlayer(p);
+        ArrayList<Component> lore = new ArrayList<>();
+        lore.add(Component.text(ChatColor.GOLD + "Distance: " + Math.sqrt(distance) + "m"));
+        skullMeta.lore(lore);
+        skullMeta.displayName(Component.text(ChatColor.GOLD + "" + ChatColor.BOLD + p.getName()));
+        playerHead.setItemMeta(skullMeta);
+
+        return playerHead;
     }
 }

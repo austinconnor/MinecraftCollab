@@ -34,8 +34,9 @@ public class ClearData implements CommandExecutor
                     return false;
                 }
             }
-            dataUtils.clearFile(dataUtils.outputFileName); 
-            System.out.println(Main.prefix + ChatColor.GREEN + "Cleared output.json!");
+            dataUtils.clearFile(dataUtils.outputFileName);
+            dataUtils.clearFile(dataUtils.activityFileName);
+            System.out.println(Main.prefix + ChatColor.GREEN + "Cleared output file!");
         }
         
         return true;
