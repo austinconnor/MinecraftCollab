@@ -5,7 +5,6 @@ import java.util.TreeMap;
 
 import com.google.gson.JsonObject;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +22,7 @@ import sd2.project.utils.InventoryUtils;
 
 public class ActivityEvents implements Listener
 {
-    int cd = 270;
+    int cd = 180;
 
     public Main plugin;
 

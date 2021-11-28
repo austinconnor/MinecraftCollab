@@ -113,7 +113,7 @@ public class Main extends JavaPlugin
             {
                 Bukkit.broadcast(componentUtils.activityMessage);
             }
-        }.runTaskTimer(this, 20 * cd, 20 * 30);
+        }.runTaskTimer(this, 20 * 30, 20 * cd);
     }
 
     @Override
