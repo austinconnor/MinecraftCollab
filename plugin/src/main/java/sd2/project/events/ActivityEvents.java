@@ -80,7 +80,7 @@ public class ActivityEvents implements Listener
                             
                             double distance = p.getLocation().distanceSquared(near.getLocation());
                             
-                            sortedHeads.put(Math.sqrt(distance), invUtils.getPlayerHead(p, distance));
+                            sortedHeads.put(Math.sqrt(distance), invUtils.getPlayerHead(near, distance));
                             
                             count++;
                         }
