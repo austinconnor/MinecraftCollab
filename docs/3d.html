@@ -12,8 +12,9 @@
    	<script src='https://cdn.plot.ly/plotly-2.4.2.min.js'></script>
      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- <script src="jquery-csv.js"></script> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
     <link rel="stylesheet" href="../src/css/custom.css">
   </head>
   <body>
@@ -34,11 +35,16 @@
                 <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">3D Map</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                 <a class="nav-link" href="documents.html">Documents</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a class="nav-link" href="participants.html">Participants</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://github.com/minecraftcollaboration/minecraftcollab" style="font-size: 30px; color: #4f4f7f; padding-left:40px;">
+                    <i class="fab fa-github"></i> 
+                  </a>
                 </li>
             </ul>
         </div>
@@ -50,17 +56,34 @@
       <div class="col-sm-5"></div>
       <div class="col-sm-1 world_select">
         <select id="WorldSelect" name="form_select" onchange="onChange(this)">
-          <option value="Overworld">Overworld</option>
-          <option value="Nether">Nether</option>
-          <option value="End">End</option>
+          <option value="overworld">Overworld</option>
+          <option value="nether">Nether</option>
+          <option value="end">End</option>
         </select>
       </div>
       <div class="col-sm-1 event_select">
-        <select id="EventSelect" name="form_select" onchange="onChange(this)">
-          <option value="_Move_2DPoints">Movement</option>
-          <option value="_Death_2DPoints">Deaths</option>
-          <option value="_BlockBreak_2DPoints">Block Break</option>
-          <option value="_BlockPlace_2DPoints">Block Place</option>
+        <select id="EventSelect" name="form_select" onchange="onChange()">
+          <option value="PlayerMoveEvent">Movement</option>
+          <option value="PlayerDeathEvent">Deaths</option>
+          <option value="BlockBreakEvent">Block Break</option>
+          <option value="BlockPlaceEvent">Block Place</option>
+          <option value="PlayerJoinEvent">Player Join</option>
+          <option value="PlayerQuitEvent">Player Quit</option>
+          <option value="PlayerChangedWorldEvent">Changed World</option>
+          <option value="EntityDamageByEntityEvent">Damage</option>
+          <option value="PlayerInteractEvent">Interact</option>
+          <option value="PlayerRespawnEvent">Respawn</option>
+          <option value="ProjectileHitEvent">Projectile Hit</option>
+          <option value="PlayerDropItemEvent">Drop Item</option>
+          <option value="PlayerBedEnterEvent">Bed Enter</option>
+          <option value="PlayerBedLeaveEvent">Bed Leave</option>
+          <option value="PlayerLeashEntityEvent">Leash</option>
+          <option value="PlayerUnleashEntityEvent">Unleash</option>
+          <option value="PlayerShearEntityEvent">Shear</option>
+          <option value="PlayerBucketFillEvent">Bucket Fill</option>
+          <option value="PlayerBucketEmptyEvent">Bucket Empty</option>
+          <option value="EnchantItemEvent">Enchant Item</option>
+          <option value="PlayerEggThrowEvent">Egg Throw</option>
         </select>
       </div>
       <div class="col-sm-5"></div>
@@ -68,25 +91,14 @@
       
     <br>
     
-      <h3 id="Overworld_title" class="worldTitle" value="Overworld" style="display:block;">The Overworld</h3>
+      <h3 id="overworld_title" class="worldTitle" value="Overworld" style="display:block;">The Overworld</h3>
+      <h3 id="nether_title" class="worldTitle" value="Nether" style="display:none;">The Nether</h3>
+      <h3 id="end_title" class="worldTitle" value="End" style="display:none;">The End</h3>
       <div class="container">
-        <div class="map" id='Overworld_Move_3DPoints' style="display:block;"></div>
-        <div class="map" id='Overworld_Death_3DPoints' style="display:none;"></div>
-        <div class="map" id='Overworld_BlockBreak_3DPoints' style="display:none;"></div>
-        <div class="map" id='Overworld_BlockPlace_3DPoints' style="display:none;"></div>
+        <div class="map" id='Event_3DPoints' style="display:block;"></div>
       </div>
       <!-- <div id='my3DHeatMap'></div> -->
-      <h3 id="Nether_title" class="worldTitle" value="Nether" style="display:none;">The Nether</h3>
-      <div class="map" id='Nether_Move_3DPoints' style="display:none;"></div>
-      <div class="map" id='Nether_Death_3DPoints' style="display:none;"></div>
-      <div class="map" id='Nether_BlockBreak_3DPoints' style="display:none;"></div>
-      <div class="map" id='Nether_BlockPlace_3DPoints' style="display:none;"></div>
-  
-      <h3 id="End_title" class="worldTitle" value="End" style="display:none;">The End</h3>
-      <div class="map" id='End_Move_3DPoints' style="display:none;"></div>
-      <div class="map" id='End_Death_3DPoints' style="display:none;"></div>
-      <div class="map" id='End_BlockBreak_3DPoints' style="display:none;"></div>
-      <div class="map" id='End_BlockPlace_3DPoints' style="display:none;"></div>
+      
       <script src="../src/js/3D.js"></script>
   </body>
 </html>
