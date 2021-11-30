@@ -26,7 +26,6 @@ public class ChatDataUtils
         json.addProperty("time", player.getWorld().getFullTime());
         json.addProperty("message", message);
         
-        // An example of an output: {"playerID": "69420","message": "This is a message!"}
         return json;
     }
 }

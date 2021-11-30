@@ -35,11 +35,13 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import sd2.project.utils.ChatDataUtils;
 import sd2.project.utils.DataUtils;
 
+// A full list of all player events can be found here:
+// https://papermc.io/javadocs/paper/1.17/com/destroystokyo/paper/event/player/package-summary.html
+
 public class Events implements Listener
 {
     DataUtils dataUtils = new DataUtils();
     ChatDataUtils chatDataUtils = new ChatDataUtils();
-    boolean passedPortal = false;
     
     @EventHandler
     public void onMoveEvent(PlayerMoveEvent e)

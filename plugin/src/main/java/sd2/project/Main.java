@@ -1,5 +1,6 @@
 package sd2.project;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -31,17 +32,20 @@ import sd2.project.utils.InventoryUtils;
 
 public class Main extends JavaPlugin
 {
+    // Activity message delay
+    int cdActivity = 300;
 
+    // Database objects
     public static MongoClient mongoClient = null;
     public static MongoDatabase database = null;
 
-    int cd = 300;
-
+    // Utils for later use
     public DataUtils dataUtils = new DataUtils();
     public ChatDataUtils chatDataUtils = new ChatDataUtils();
     public ComponentUtils componentUtils = new ComponentUtils();
     public InventoryUtils invUtils = new InventoryUtils();
 
+    // Table for tracking all cooldowns
     public static Table<UUID, String, Integer> cooldown = HashBasedTable.create();
 
     // Chat prefix [DC] <message>
@@ -59,12 +63,19 @@ public class Main extends JavaPlugin
     // The period of time to send data in minutes.
     static final int period = 1;
 
+    // Tracks nearby players for the activity feature
     public static HashMap<Player, TreeMap<Double, ItemStack>> proximityData = new HashMap<>();
+
+    // File Names
+    public static ArrayList<String> fileNames = new ArrayList<>(); 
+
+    // Collection Map
+    public static HashMap<String, String> collections = new HashMap<>();
 
     @Override
     public void onEnable()
     {
-        // Undo these comments.
+        // Establish connection to DB
         mongoClient = new MongoClient(new MongoClientURI(dataUtils.dataURI));
         database = mongoClient.getDatabase("Data");
 
@@ -73,6 +84,7 @@ public class Main extends JavaPlugin
         pm.registerEvents(new ActivityEvents(this), this);
         pm.registerEvents(new Events(), this);
         
+        // Place all commands here along with their respective classes.
         this.getCommand("sendData").setExecutor(new SendData());
         this.getCommand("clearData").setExecutor(new ClearData());
         this.getCommand("act").setExecutor(new Activity(this));   
@@ -81,29 +93,32 @@ public class Main extends JavaPlugin
         actInv = invUtils.createActivityInventory();
         
         getLogger().info(prefix + ChatColor.RED + "Inventories " + ChatColor.GRAY + "have been loaded.");
+
+        fileNames.add(dataUtils.outputFileName);
+        fileNames.add(chatDataUtils.outputFileName);
+        fileNames.add(dataUtils.activityFileName);
+
+        getLogger().info(prefix + ChatColor.RED + "File Names" + ChatColor.GRAY + "have been loaded");
+
+        // Parameter format: <collection, dataType>
+        collections.put("worldData", "PLAYER");
+        collections.put("chatData", "CHAT");
+        collections.put("activityData", "ACTIVITY");
+
         getLogger().info(prefix + ChatColor.RED + "DataCollection " + ChatColor.GRAY + "been enabled.");
         
-
-        // ok so we have to have the data properly go to the database 
 
         // Send data loop
         new BukkitRunnable()
         {
             public void run()
             {
-                // Undo these comments.
-                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("worldData", dataUtils.outputFileName) + " PLAYER data documents this time around.");
-                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("chatData", chatDataUtils.outputFileName) + " CHAT data documents this time around.");
-                getLogger().info(prefix + ChatColor.GREEN + "Sent " + dataUtils.writeToDB("activityData", dataUtils.activityFileName) + " ACTIVITY data documents this time around.");
-
-                dataUtils.clearFile(dataUtils.outputFileName);
-                dataUtils.clearFile(chatDataUtils.outputFileName);
-                dataUtils.clearFile(dataUtils.activityFileName);
-                
+                dataUtils.sendAllToDB();
+                dataUtils.clearAllFiles();                
             }   
             
-            // In Minecraft time (ticks), one human second is 20 ticks, so one human minute is 20*60 = 1200 ticks.
-            // Multiply 1200 by the desired amount of minutes to repeat this task
+        // In Minecraft time (ticks), one human second is 20 ticks, so one human minute is 20*60 = 1200 ticks.
+        // Multiply 1200 by the desired amount of minutes to repeat this task
         }.runTaskTimer(this, 20*60*period, 20*60*period);
         
         // Broadcast Message Loop
@@ -113,7 +128,7 @@ public class Main extends JavaPlugin
             {
                 Bukkit.broadcast(componentUtils.activityMessage);
             }
-        }.runTaskTimer(this, 20 * 30, 20 * cd);
+        }.runTaskTimer(this, 20 * 30, 20 * cdActivity);
     }
 
     @Override
@@ -123,8 +138,4 @@ public class Main extends JavaPlugin
         getLogger().info(prefix + ChatColor.RED + "DataCollection" + ChatColor.GRAY + " been disabled.");
     }
 
-    // To-Do list
-    // 1. Ensure data goes to their respective collections
-    // 2. Make sure the hash works with multiple players
-    // 3. Associate a player with a number via a HashMap? (Post-data collection)
 }

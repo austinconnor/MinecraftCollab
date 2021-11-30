@@ -128,7 +128,11 @@ public class InventoryUtils
         SkullMeta skullMeta = (SkullMeta) playerHead.getItemMeta();
         skullMeta.setOwningPlayer(p);
         ArrayList<Component> lore = new ArrayList<>();
-        lore.add(Component.text(ChatColor.GOLD + "Distance: " + Math.sqrt(distance) + "m"));
+
+        double num = Math.round(Math.sqrt(distance) * 100);
+        num = num / 100;
+
+        lore.add(Component.text(ChatColor.GOLD + "Distance: " + num + "m"));
         skullMeta.lore(lore);
         skullMeta.displayName(Component.text(ChatColor.GOLD + "" + ChatColor.BOLD + p.getName()));
         playerHead.setItemMeta(skullMeta);

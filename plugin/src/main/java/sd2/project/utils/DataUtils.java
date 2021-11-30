@@ -18,6 +18,8 @@ import com.mongodb.client.MongoCollection;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.Document;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
@@ -32,7 +34,6 @@ public class DataUtils
     public String outputFileName = "output.json";
     public String activityFileName = "activity.json";
 	public String dataURI = "placeholder";
-
 
     public String hashPlayer(Player p)
     {
@@ -179,6 +180,21 @@ public class DataUtils
         return true;
     }
 
+    public boolean clearAllFiles()
+    {
+        int count = 0;
+        for (String s : Main.fileNames)
+        {
+            clearFile(s);
+            count++;
+        }
+
+        if (count == Main.fileNames.size())
+            return true;
+
+        return false;
+    }
+
     // Uploads current data to the database.
     public int writeToDB(String dbName, String outputFile)
     {
@@ -188,23 +204,32 @@ public class DataUtils
         List<Document> dataList = parseFileToList(outputFile);
 
         if (dataList.isEmpty())
-        {
-            // Main.mongoClient.close();
             return 0;
-        }
 
-        // Get the file output.json
+        // Insert data
         try 
         {
             collection.insertMany(dataList);
-
-            // Main.mongoClient.close();
         } 
         catch (Exception e) 
         {
             e.printStackTrace();
         }
-        // Main.mongoClient.close();
         return dataList.size();
+    }
+
+    public boolean sendAllToDB()
+    {
+        int i = 0;
+        for (Map.Entry<String, String> entry : Main.collections.entrySet())
+        {
+            Bukkit.getLogger().info(Main.prefix + ChatColor.GREEN + "Sent " + writeToDB(entry.getKey(), Main.fileNames.get(i)) + " " + entry.getValue() + " data documents this time around.");
+            i++;
+        }
+
+        if (i == Main.fileNames.size())
+            return true;
+
+        return false;
     }
 }

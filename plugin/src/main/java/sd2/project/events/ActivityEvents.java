@@ -22,6 +22,7 @@ import sd2.project.utils.InventoryUtils;
 
 public class ActivityEvents implements Listener
 {
+    // Activity Cooldown
     int cd = 180;
 
     public Main plugin;
@@ -65,6 +66,7 @@ public class ActivityEvents implements Listener
                         
                         p.openInventory(actInv);
 
+                        // top 10 nearest players
                         int limit = 10;
                         int count = 0;
                         
