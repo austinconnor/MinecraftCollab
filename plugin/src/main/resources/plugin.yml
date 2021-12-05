@@ -1,0 +1,10 @@
+main: sd2.project.Main
+name: DataCollection
+version: 0.1
+api-version: 1.17
+
+commands:
+  sendData:
+  clearData:
+  act:
+  activity:
